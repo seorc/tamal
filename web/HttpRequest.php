@@ -1,4 +1,5 @@
 <?php
+namespace tamal\web;
 
 /* Copyright (C) 2012 Daniel Abraján
  *
@@ -22,7 +23,7 @@ require_once(TAMAL."/web/Request.php");
 require_once(TAMAL."/web/UrlPath.php");
 require_once(TAMAL."/web/ContentType.php");
 
-class ParamNotFound extends Exception {}
+class ParamNotFound extends \Exception {}
 
 class HttpRequest extends Request {
 

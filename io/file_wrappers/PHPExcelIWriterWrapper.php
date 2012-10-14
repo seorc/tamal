@@ -1,4 +1,5 @@
 <?php
+namespace tamal\io\file_wrappers;
 
 /* Copyright (C) 2012 Daniel Abraján
  *
@@ -23,11 +24,11 @@ require_once(TAMAL."/io/FileWrapper.php");
 /**
  * Wraps a PHPExcel_Writer_IWriter implementation
  */
-class PHPExcelIWriterWrapper extends FileWrapper {
+class PHPExcelIWriterWrapper extends \tamal\io\FileWrapper {
 	protected $file;
 	protected $fileName;
 	
-	public function __construct(PHPEXcel_Writer_IWriter $file, $file_name) {
+	public function __construct(\PHPEXcel_Writer_IWriter $file, $file_name) {
 		$this->file = $file;
 		$this->fileName = $file_name;
 	}

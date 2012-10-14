@@ -1,4 +1,5 @@
 <?php
+namespace tamal\manager;
 
 /* Copyright (C) 2012 Daniel Abraján
  *
@@ -20,13 +21,13 @@
 
 require_once(TAMAL."/core/ContextAccessor.php");
 
-class KeyException extends Exception {}
+class KeyException extends \Exception {}
 
 /**
  * Abstract class for all data managers
  */
 //TODO: determine if it must be abstract
-abstract class DataManager implements Serializable {
+abstract class DataManager implements \Serializable {
 	protected $store;
 	//TODO: a $dmStore could be used to keep DataManager instances
 	//TODO: a $objectStore could be used to keep Object instances

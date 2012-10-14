@@ -1,4 +1,5 @@
 <?php
+namespace tamal\core;
 
 /* Copyright (C) 2012 Daniel Abraján
  *
@@ -50,7 +51,7 @@ class ActionResolver {
 			return $act;
 		}
 		// TODO define exception
-		throw new Exception("The action was not fund");
+		throw new \Exception("The action was not fund");
 	}
 
 	public static function splitActionName($ai) {

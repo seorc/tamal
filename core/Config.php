@@ -1,4 +1,5 @@
 <?php
+namespace tamal\core;
 
 /* Copyright (C) 2012 Daniel Abraján
  *
@@ -18,7 +19,7 @@
  * Tamal. If not, see <http://www.gnu.org/licenses/>.
  */
 
-class NotFoundException extends Exception {}
+class NotFoundException extends \Exception {}
 
 /**
  * Clase para manejar configuraciones

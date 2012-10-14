@@ -1,4 +1,5 @@
 <?php
+namespace tamal\middleware;
 
 /* Copyright (C) 2012 Daniel Abraján
  *
@@ -19,7 +20,7 @@
  */
 
 require_once(TAMAL."/middleware/Middleware.php");
-
+require_once(TAMAL."/auth/User.php");
 
 class HttpBasicAuthMiddleware extends Middleware {
 
@@ -35,13 +36,15 @@ class HttpBasicAuthMiddleware extends Middleware {
 	public function __construct() {
 		$this->authenticator = NULL;
 
-		$this->user = new User();
+		$this->user = new \tamal\auth\User();
 	}
 
-	public function runReq(Request $req) {
+	public function runReq(\tamal\web\Request $req) {
 		try {
 
-			if($req->getAuthType() != HttpRequest::AUTH_BASIC) return;
+			if($req->getAuthType() != \tamal\web\HttpRequest::AUTH_BASIC) {
+				return;
+			}
 
 			$this->user->authenticate(
 				$req->getAuthUser(),
@@ -54,13 +57,13 @@ class HttpBasicAuthMiddleware extends Middleware {
 		}
 	}
 
-	public function setAuthenticator(UserAuthenticator $uauth) {
+	public function setAuthenticator(\tamal\auth\UserAuthenticator $uauth) {
 		$this->user->setAuthenticator($uauth);
 	}
 
 	public function validate() {
 		if(!$this->user->isAuthenticated()) {
-			throw new NotAuthenticated("The user could not be authenticated");
+			throw new \tamal\auth\NotAuthenticated("The user could not be authenticated");
 		}
 	}
 }

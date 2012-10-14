@@ -1,4 +1,5 @@
 <?php
+namespace tamal\middleware;
 
 /* Copyright (C) 2012 Daniel Abraján
  *
@@ -35,7 +36,7 @@ class MessageMiddleware extends Middleware {
 		$this->messages[] = array("msg" => $name, "params" => $params);
 	}
 
-	public function runRes(Response $res) {
+	public function runRes(\tamal\web\Response $res) {
 		self::appendToWrap($res, self::WRAPPER_KEY, $this->messages);
 	}
 

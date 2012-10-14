@@ -1,4 +1,5 @@
 <?php
+namespace tamal\core;
 
 /* Copyright (C) 2012 Daniel Abraján
  *
@@ -21,7 +22,7 @@
 require_once(TAMAL."/core/ActionResolver.php");
 require_once(TAMAL."/web/UrlPath.php");
 
-class NoMatchFoundException extends Exception {}
+class NoMatchFoundException extends \Exception {}
 
 class UrlMatcher {
 	
@@ -33,11 +34,11 @@ class UrlMatcher {
 		$this->apps = $apps;
 	}
 
-	public function matchAction(Context $c, HttpRequest $r) {
+	public function matchAction(Context $c, \tamal\web\HttpRequest $r) {
 		$url = $r->getUrl();
 
 		// to match the path and manage its parts
-		$path = new UrlPath();
+		$path = new \tamal\web\UrlPath();
 
 		$url = preg_split("/\?/", $url);
 		$url = $url[0];
