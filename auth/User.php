@@ -1,4 +1,5 @@
 <?php
+namespace tamal\auth;
 
 /* Copyright (C) 2012 Daniel Abraján
  *
@@ -18,8 +19,8 @@
  * Tamal. If not, see <http://www.gnu.org/licenses/>.
  */
 
-class NotSetException extends Exception {}
-class NotAuthenticated extends Exception {}
+class NotSetException extends \Exception {}
+class NotAuthenticated extends \Exception {}
 
 class User {
 

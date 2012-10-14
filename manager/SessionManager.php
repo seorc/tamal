@@ -1,4 +1,5 @@
 <?php
+namespace tamal\manager;
 
 /* Copyright (C) 2012 Daniel Abraján
  *
@@ -38,7 +39,7 @@ class SessionManager extends DataManager {
 
 	public function __construct() {
 		parent::__construct();
-		$this->push(self::USER, new User());
+		$this->push(self::USER, new \tamal\auth\User());
 	}
 
 	public function destroy() {

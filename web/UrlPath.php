@@ -1,4 +1,5 @@
 <?php
+namespace tamal\web;
 
 /* Copyright (C) 2012 Daniel Abraján
  *
@@ -18,8 +19,7 @@
  * Tamal. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-class NoNamedPathSegmentFound extends Exception {}
+class NoNamedPathSegmentFound extends \Exception {}
 	
 class UrlPath {
 

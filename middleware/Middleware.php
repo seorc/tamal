@@ -1,4 +1,5 @@
 <?php
+namespace tamal\middleware;
 
 /* Copyright (C) 2012 Daniel Abraján
  *
@@ -18,7 +19,7 @@
  * Tamal. If not, see <http://www.gnu.org/licenses/>.
  */
 
-class MiddlewareException extends Exception {}
+class MiddlewareException extends \Exception {}
 
 abstract class Middleware {
 
@@ -29,13 +30,13 @@ abstract class Middleware {
 	public function __construct() {
 	}
 
-	public function runReq(Request $req) {
+	public function runReq(\tamal\web\Request $req) {
 	}
 
-	public function runRes(Response $res) {
+	public function runRes(\tamal\web\Response $res) {
 	}
 
-	public static function wrapResponse(Response $r) {
+	public static function wrapResponse(\tamal\web\Response $r) {
 		$w = $r->getContent();
 		$w = array(
 			self::RESPONSE_WRAPPER_KEY => $r->getContent()
@@ -43,7 +44,7 @@ abstract class Middleware {
 		$r->setContent($w);
 	}
 
-	public static function unwrapResponse(Response $r) {
+	public static function unwrapResponse(\tamal\web\Response $r) {
 		if(self::isWrapped($r)) {
 			$w = $r->getContent();
 			$c = $w[self::RESPONSE_WRAPPER_KEY];
@@ -55,13 +56,13 @@ abstract class Middleware {
 		}
 	}
 
-	public static function isWrapped(Response $r) {
+	public static function isWrapped(\tamal\web\Response $r) {
 		$w = $r->getContent();
 		return is_array($w)
 			&& array_key_exists(self::RESPONSE_WRAPPER_KEY, $w);
 	}
 
-	public static function appendToWrap(Response $r, $wkey, $contents) {
+	public static function appendToWrap(\tamal\web\Response $r, $wkey, $contents) {
 		if(!self::isWrapped($r)) {
 			self::wrapResponse($r);
 		}

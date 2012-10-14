@@ -1,4 +1,5 @@
 <?php
+namespace tamal\io\file_wrappers;
 
 /* Copyright (C) 2012 Daniel Abraján
  *
@@ -29,7 +30,7 @@ class TCPDFWrapper extends FileWrapper {
 	protected $file;
 	protected $fileName;
 	
-	public function __construct(TCPDF $file, $file_name) {
+	public function __construct(\TCPDF $file, $file_name) {
 		$this->file = $file;
 		$this->fileName = $file_name;
 	}

@@ -1,4 +1,5 @@
 <?php
+namespace tamal\core;
 
 /* Copyright (C) 2012 Daniel Abraján
  *
@@ -18,10 +19,10 @@
  * Tamal. If not, see <http://www.gnu.org/licenses/>.
  */
 
-class NotFoundException extends Exception {}
+class NotFoundException extends \Exception {}
 
 /**
- * Clase para manejar configuraciones
+ * Configuration handling class.
  */
 abstract class Config {
 
@@ -78,24 +79,24 @@ abstract class Config {
 		if(array_key_exists($name, $this->_url)) {
 			return $this->_url[$name];
 		}
-		//TODO define Exception
-		throw new Exception("Url not found");
+		// TODO Define Exception.
+		throw new \Exception("Url not found");
 	}
 
 	public final function val($name) {
 		if(array_key_exists($name, $this->_val)) {
 			return $this->_val[$name];
 		}
-		//TODO define Exception
-		throw new Exception("Val not found");
+		// TODO define Exception.
+		throw new \Exception("Val not found");
 	}
 	
 	public final function dir($name) {
 		if(array_key_exists($name, $this->_dir)) {
 			return $this->_dir[$name];
 		}
-		//TODO define Exception
-		throw new Exception("Dir not found");
+		//TODO Define Exception.
+		throw new \Exception("Dir not found");
 	}
 
 }

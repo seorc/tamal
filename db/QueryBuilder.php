@@ -1,4 +1,5 @@
 <?php
+namespace tamal\db;
 
 /* Copyright (C) 2012 Daniel Abraján
  *
@@ -90,8 +91,8 @@ class QueryBuilder {
 		if($operator == self::USE_AND) $operator = $l->_and;
 		elseif($operator == self::USE_OR) $operator = $l->_or;
 		else {
-			// TODO make specific Exception for this
-			throw new Excetpion("Unknown operator identifier");
+			// TODO Create a specific Exception for this.
+			throw new \Excetpion("Unknown operator identifier");
 		}
 
 		$this->where .=
@@ -109,7 +110,8 @@ class QueryBuilder {
 			$this->distinct = $columns;
 		}
 		else {
-			throw new Excetpion("Incorrect argument to setDistinct");
+			// TODO Create a specific Exception for this.
+			throw new \Excetpion("Incorrect argument to setDistinct");
 		}
 	}
 

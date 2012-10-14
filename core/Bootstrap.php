@@ -1,4 +1,5 @@
 <?php
+namespace tamal\core;
 
 /* Copyright (C) 2012 Daniel Abraján
  *
@@ -24,6 +25,8 @@ require_once(TAMAL."/web/HttpStatus.php");
 require_once(TAMAL."/core/Context.php");
 require_once(TAMAL."/core/UrlMatcher.php");
 
+use tamal\web as tweb;
+
 class Bootstrap extends Context {
 	
 	public $actionIdentifier = NULL;
@@ -45,16 +48,20 @@ class Bootstrap extends Context {
 			$this->systems = $um->getApps();
 
 			// TODO improve the HttpRequest packaging
-			$this->request = new HttpRequest($_POST, $_GET, $_SERVER);
+			$this->request = new tweb\HttpRequest($_POST, $_GET, $_SERVER);
 			$this->action = $um->matchAction($this, $this->request);
 		}
-		catch(Exception $e) {
+		catch(\Exception $e) {
 			$this->deployException($e);
 		}
 	}
 
-	protected function deployException(Exception $e) {
-		if($this->config->debug) {
+	protected function deployException(\Exception $e) {
+		$e_class = get_class($e);
+		$not_error_e = array(
+			'tamal\\auth\\NotLoggedInException',
+			'tamal\\auth\\NotAuthenticated');
+		if($this->config->debug && !in_array($e_class, $not_error_e)) {
 			echo "<h2>Tamal says an exception occurred</h2>"
 				."<div style=\""
 				."background-color: #ffffcc;"
@@ -72,22 +79,22 @@ class Bootstrap extends Context {
 
 			// TODO Send email notification if *debug* mode is disabled.
 			switch(get_class($e)) {
-			case "NoMatchFoundException":
-				$http_status = HttpStatus::NOT_FOUND;
+			case "tamal\\NoMatchFoundException":
+				$http_status = tweb\HttpStatus::NOT_FOUND;
 				break;
-			case "NotLoggedInException":
-			case "NotAuthenticated":
-				$http_status = HttpStatus::UNAUTHORIZED;
-				// TODO This shuldn't be hardcoded.
+			case "tamal\\auth\\NotLoggedInException":
+			case "tamal\\auth\\NotAuthenticated":
+				$http_status = tweb\HttpStatus::UNAUTHORIZED;
+				// TODO This shouldn't be hardcoded.
 				$headers[] = 'WWW-Authenticate: Basic realm="Tamal"';
 				break;
 			case "ParamNotFound":
-				$http_status = HttpStatus::BAD_REQUEST;
+				$http_status = tweb\HttpStatus::BAD_REQUEST;
 				break;
 			default:
-				$http_status = HttpStatus::INTERNAL_SERVER_ERROR;
+				$http_status = tweb\HttpStatus::INTERNAL_SERVER_ERROR;
 			}
-			$r = new HttpResponse($e->getMessage(), $http_status);
+			$r = new tweb\HttpResponse($e->getMessage(), $http_status);
 
 			for($i = 0; $i < count($headers); $i++) {
 				$r->setHeader($headers[$i]);
@@ -114,8 +121,8 @@ class Bootstrap extends Context {
 		if(array_key_exists($mwKey, $this->middlewareMap)) {
 			return $this->middleware[$this->middlewareMap[$mwKey]];
 		}
-		// TODO define exception properly
-		throw new Exception("The Middleware key '{$mwKey}' was not found");
+		// TODO Define exception properly.
+		throw new \Exception("The Middleware key '{$mwKey}' was not found");
 	}
 
 	/**
@@ -129,7 +136,7 @@ class Bootstrap extends Context {
 		$this->middleware = $this->config->middleware;
 	}
 
-	protected function runMiddlewareReq(Request $req) {
+	protected function runMiddlewareReq(\tamal\web\Request $req) {
 		if(is_a($req, "RawReqRes") || count($this->middleware) < 1) {
 			return;
 		}
@@ -138,7 +145,7 @@ class Bootstrap extends Context {
 		}
 	}
 
-	protected function runMiddlewareRes(Response $res) {
+	protected function runMiddlewareRes(\tamal\web\Response $res) {
 		if(is_a($res, "RawReqRes") || count($this->middleware) < 1) {
 			return;
 		}
@@ -171,7 +178,7 @@ class Bootstrap extends Context {
 			$this->runMiddlewareRes($res);
 			$res->deploy();
 		}
-		catch(Exception $e) {
+		catch(\Exception $e) {
 			$this->deployException($e);
 		}
 	}

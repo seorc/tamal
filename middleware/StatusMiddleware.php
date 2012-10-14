@@ -1,4 +1,5 @@
 <?php
+namespace tamal\middleware;
 
 /* Copyright (C) 2012 Daniel Abraján
  *
@@ -45,7 +46,7 @@ class StatusMiddleware extends Middleware {
 
 	protected $status = self::ST_OK;
 
-	public function runRes(Response $res) {
+	public function runRes(\tamal\web\Response $res) {
 		self::appendToWrap($res, self::WRAPPER_KEY, $this->status);
 		// XXX just for testing
 		self::appendToWrap($res, "success", $this->status == self::ST_OK);

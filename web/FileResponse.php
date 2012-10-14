@@ -1,4 +1,5 @@
 <?php
+namespace tamal\web;
 
 /* Copyright (C) 2012 Daniel Abraján
  *
@@ -22,7 +23,7 @@ require_once(TAMAL."/web/Response.php");
 
 class FileResponse extends Response {
 
-	public function __construct(FileWrapper $wrapper) {
+	public function __construct(\tamal\io\FileWrapper $wrapper) {
 		$this->content = $wrapper;
 	}
 

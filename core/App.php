@@ -1,4 +1,5 @@
 <?php
+namespace tamal\core;
 
 /* Copyright (C) 2012 Daniel Abraján
  *
@@ -20,7 +21,8 @@
 
 require_once(TAMAL."/core/Context.php");
 
-class NotLoggedInException extends Exception {}
+// XXX Shouldn't this exception go under \tamal\auth?
+class NotLoggedInException extends \Exception {}
 
 class App extends ContextAccessor {
 	

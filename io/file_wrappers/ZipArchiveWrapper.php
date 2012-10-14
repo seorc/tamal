@@ -1,4 +1,5 @@
 <?php
+namespace tamal\io\file_wrappers;
 
 /* Copyright (C) 2012 Daniel Abraján
  *
@@ -23,14 +24,14 @@ require_once(TAMAL."/io/FileWrapper.php");
 /**
  * Wraps a ZipArchive object.
  */
-class ZipArchiveWrapper extends FileWrapper {
+class ZipArchiveWrapper extends \tamal\io\FileWrapper {
 
 	public $autoRemove = False;
 
 	protected $file;
 	protected $fileName;
 
-	public function __construct(ZipArchive $file, $file_name) {
+	public function __construct(\ZipArchive $file, $file_name) {
 		$this->file = $file;
 		$this->fileName = $file_name;
 	}

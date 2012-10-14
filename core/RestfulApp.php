@@ -1,4 +1,5 @@
 <?php
+namespace tamal\core;
 
 /* Copyright (C) 2012 Daniel Abraján
  *
@@ -22,7 +23,7 @@ require_once(TAMAL."/core/App.php");
 
 abstract class RestfulApp extends App {
 
-	public function restful(Request $r) {
+	public function restful(\tamal\web\Request $r) {
 
 		switch($r->getMethod()) {
 		case 'GET':
@@ -36,10 +37,10 @@ abstract class RestfulApp extends App {
 		}
 	}
 
-	abstract protected function read(Request $r); 
-	abstract protected function create(Request $r);
-	abstract protected function update(Request $r);
-	abstract protected function delete(Request $r);
+	abstract protected function read(\tamal\web\Request $r); 
+	abstract protected function create(\tamal\web\Request $r);
+	abstract protected function update(\tamal\web\Request $r);
+	abstract protected function delete(\tamal\web\Request $r);
 }
 
 ?>
