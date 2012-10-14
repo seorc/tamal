@@ -57,7 +57,11 @@ class Bootstrap extends Context {
 	}
 
 	protected function deployException(\Exception $e) {
-		if($this->config->debug) {
+		$e_class = get_class($e);
+		$not_error_e = array(
+			'tamal\\auth\\NotLoggedInException',
+			'tamal\\auth\\NotAuthenticated');
+		if($this->config->debug && !in_array($e_class, $not_error_e)) {
 			echo "<h2>Tamal says an exception occurred</h2>"
 				."<div style=\""
 				."background-color: #ffffcc;"
