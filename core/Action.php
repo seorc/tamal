@@ -28,27 +28,27 @@ class Action {
 	public function __construct(Context $context, $class, $method) {
 		$this->context = $context;
 		if(!class_exists($class)) {
-			// TODO define exception
-			throw new Exception(
+			// TODO Define exception.
+			throw new \Exception(
 				"The action class does not exist: ".$class);
 		}
 		$this->rc = new \ReflectionClass($class);
 		if(!$this->rc->hasMethod($method)) {
-			// TODO define exception
+			// TODO Define exception.
 			throw new \Exception("The action method does not exist: ".$method);
 		}
 		elseif(!$this->rc->getMethod($method)->isPublic()) {
-			// TODO define exception
-			throw new Exception(
+			// TODO Define exception.
+			throw new \Exception(
 				"The action method cannot be run: ".$method);
 		}
 		$this->rm = $this->rc->getMethod($method);
 	}
 
 	public function run(\tamal\web\HttpRequest $request) {
-		# create an instance of the App
+		# Create an instance of the App.
 		$classInstance = $this->rc->newInstance($this->context);
-		# execute the corresponding method of the instance created
+		# Execute the corresponding method of the instance created.
 		return $this->rm->invoke($classInstance, $request);
 	}
 

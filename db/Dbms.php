@@ -1,4 +1,5 @@
 <?php
+namespace tamal\db;
 
 /* Copyright (C) 2012 Daniel Abraján
  *
@@ -32,8 +33,8 @@ class Dbms {
 		case self::MYSQL:
 			return new MysqlLang();
 		default:
-			// TODO make specific Exception for this
-			throw new Exception("Unknown Dbms identifier");
+			// TODO Make specific Exception for this.
+			throw new \Exception("Unknown Dbms identifier");
 		}
 	}
 }

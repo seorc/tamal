@@ -56,13 +56,13 @@ abstract class Middleware {
 		}
 	}
 
-	public static function isWrapped(Response $r) {
+	public static function isWrapped(\tamal\web\Response $r) {
 		$w = $r->getContent();
 		return is_array($w)
 			&& array_key_exists(self::RESPONSE_WRAPPER_KEY, $w);
 	}
 
-	public static function appendToWrap(Response $r, $wkey, $contents) {
+	public static function appendToWrap(\tamal\web\Response $r, $wkey, $contents) {
 		if(!self::isWrapped($r)) {
 			self::wrapResponse($r);
 		}

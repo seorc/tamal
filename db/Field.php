@@ -1,4 +1,5 @@
 <?php
+namespace tamal\db;
 
 /* Copyright (C) 2012 Daniel Abraján
  *
@@ -18,7 +19,7 @@
  * Tamal. If not, see <http://www.gnu.org/licenses/>.
  */
 
-class InvalidValue extends Exception {}
+class InvalidValue extends \Exception {}
 
 abstract class Field {
 
@@ -89,9 +90,6 @@ abstract class Field {
 		return $this->value;
 	}
 
-	/*public function isSet() {
-		return $this->valueSet;
-	}*/
 }
 
 ?>

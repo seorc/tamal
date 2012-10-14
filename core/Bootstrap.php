@@ -48,7 +48,7 @@ class Bootstrap extends Context {
 			$this->systems = $um->getApps();
 
 			// TODO improve the HttpRequest packaging
-			$this->request = new \tamal\web\HttpRequest($_POST, $_GET, $_SERVER);
+			$this->request = new tweb\HttpRequest($_POST, $_GET, $_SERVER);
 			$this->action = $um->matchAction($this, $this->request);
 		}
 		catch(\Exception $e) {
@@ -121,8 +121,8 @@ class Bootstrap extends Context {
 		if(array_key_exists($mwKey, $this->middlewareMap)) {
 			return $this->middleware[$this->middlewareMap[$mwKey]];
 		}
-		// TODO define exception properly
-		throw new Exception("The Middleware key '{$mwKey}' was not found");
+		// TODO Define exception properly.
+		throw new \Exception("The Middleware key '{$mwKey}' was not found");
 	}
 
 	/**

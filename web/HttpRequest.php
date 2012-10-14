@@ -163,8 +163,8 @@ class HttpRequest extends Request {
 		if(array_key_exists($key, $this->_post)) {
 			return $this->_post[$key];
 		}
-		//TODO define Exception
-		throw new Exception("The POST key does not exist: $key");
+		//TODO Define Exception.
+		throw new \Exception("The POST key does not exist: $key");
 	}
 
 	// TODO DEPRECATED probably will be removed
@@ -172,8 +172,8 @@ class HttpRequest extends Request {
 		if(array_key_exists($key, $this->_get)) {
 			return $this->_get[$key];
 		}
-		//TODO define Exception
-		throw new Exception("The GET key does not exist: $key");
+		//TODO Define Exception.
+		throw new \Exception("The GET key does not exist: $key");
 	}
 
 	public function getUrl() {

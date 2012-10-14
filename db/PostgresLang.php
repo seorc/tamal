@@ -1,4 +1,5 @@
 <?php
+namespace tamal\db;
 
 /* Copyright (C) 2012 Daniel Abraján
  *

@@ -30,35 +30,35 @@ class ActionResolver {
 
 	public static function find(Context $context, $action_id) {
 
-		// obtain the app referencies from by $action_id
+		// Obtain the app referencies from by $action_id.
 		$app_act =  self::splitActionName($action_id);
 
-		// verify if the app exists in the apps map
+		// Verify if the app exists in the apps map.
 		if(array_key_exists($app_act[self::APP], $context->systems)) {
 
-			// get the path to the solicited class and require it
+			// Get the path to the solicited class and require it.
 			$path = $context->systems[$app_act[self::APP]];
 
 			$class_name = self::getClassNameFromPath($path);
 
-			// TODO manage this inclusion porpperly 
+			// TODO Manage this inclusion possible related errors.
 			require_once($path);
 
-			// create the action object and return it
+			// Create the action object and return it.
 			$act = new Action(
 				$context, $class_name, $app_act[self::ACTION]);
 
 			return $act;
 		}
-		// TODO define exception
+		// TODO Define exception.
 		throw new \Exception("The action was not fund");
 	}
 
 	public static function splitActionName($ai) {
 		$xuri = explode(".", $ai);
 		if(count($xuri) != 2) {
-			// TODO define exception
-			throw new Exception("The action is malformed");
+			// TODO Define exception.
+			throw new \Exception("The action is malformed");
 		}
 		return array(self::APP => $xuri[0], self::ACTION => $xuri[1]);
 	}
@@ -89,8 +89,8 @@ class ActionResolver {
 		// try to find the class name in the file name
 		if(!preg_match($fname_regexp, $file_name, $file_matches)) {
 
-			// TODO define exception
-			throw new Exception("The class name could not be obtained");
+			// TODO Define exception.
+			throw new \Exception("The class name could not be obtained");
 		}
 
 		return $file_matches["name"];
