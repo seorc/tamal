@@ -19,6 +19,8 @@ namespace tamal\io;
 
 require_once TAMAL."/io/FileWrapper.php";
 
+class FileNotFound extends \Exception {}
+
 class GenericFileWrapper extends FileWrapper {
 
 	protected $cType;
@@ -30,6 +32,17 @@ class GenericFileWrapper extends FileWrapper {
 		$this->file = $file;
 		$this->fileName = $file_name;
 		$this->cType = $ctype;
+		
+		$this->validateFileExists();
+	}
+	
+	public function validateFileExists() {
+		
+		if(!file_exists($this->file)) {
+			throw new FileNotFound(
+				'The file was not found or it was not possible to read it: '
+				.$this->file);
+		}
 	}
 
 	public function flush() {
