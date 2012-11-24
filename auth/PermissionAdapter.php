@@ -19,7 +19,7 @@ namespace tamal\auth;
  * Tamal. If not, see <http://www.gnu.org/licenses/>.
  */
 
-class PermissionAdapter() {
+class PermissionAdapter {
 
 	public function getMap() {
 		//TODO: return a PermissionMap
