@@ -28,6 +28,8 @@ interface HttpStatus {
 	const UNAUTHORIZED = 401;
 	const FORBIDDEN = 403;
 	const NOT_FOUND = 404;
+	const REQUEST_TIMEOUT = 408;
+	const CONFLICT = 409;
 	const INTERNAL_SERVER_ERROR = 500;
 }
 
