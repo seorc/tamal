@@ -134,7 +134,7 @@ class HttpRequest extends Request {
 		case "DELETE":
 			parse_str(file_get_contents("php://input"), $this->params);
 			// TODO probably this is not necesary
-			$GLOBALS["_{$method}"] = $this->params;
+			$GLOBALS["_{$this->method}"] = $this->params;
 			// XXX is it ok that the url params are packaged too
 			// TODO analyze carefully what is this doing; I don't like it
 			$_REQUEST = $this->params + $_REQUEST;
