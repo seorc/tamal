@@ -35,10 +35,12 @@ class HttpResponse extends Response {
 
 	public function deploy() {
 		$deployable = array(
-			HttpStatus::OK,
-			HttpStatus::CREATED,
-			HttpStatus::ACCEPTED,
-			HttpStatus::NOT_FOUND
+				HttpStatus::OK,
+				HttpStatus::CREATED,
+				HttpStatus::ACCEPTED,
+				HttpStatus::NOT_FOUND,
+				HttpStatus::CONFLICT,
+				HttpStatus::BAD_REQUEST,
 		);
 
 		$this->deployStatus();
