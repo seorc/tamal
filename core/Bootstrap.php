@@ -114,7 +114,7 @@ class Bootstrap extends Context {
 		if(!is_array($this->middlewareMap)) {
 			$this->middlewareMap = array();
 			for($i = 0; $i < count($this->middleware); $i++) {
-				$cl = new ReflectionClass($this->middleware[$i]);
+				$cl = new \ReflectionClass($this->middleware[$i]);
 				$this->middlewareMap[$cl->getConstant("MWKEY")] = $i;
 			}
 		}
