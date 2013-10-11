@@ -27,11 +27,12 @@ class GenericFileWrapper extends FileWrapper {
 	protected $file;
 	protected $fileName;
 
-	public function __construct($file, $file_name, $ctype) {
+	public function __construct($file, $file_name, $ctype, $cdisip = 'attachment') {
 
 		$this->file = $file;
 		$this->fileName = $file_name;
 		$this->cType = $ctype;
+		$this->cDisp = $cdisip;
 		
 		$this->validateFileExists();
 	}
@@ -55,7 +56,7 @@ class GenericFileWrapper extends FileWrapper {
 		else {
 			header("Cache-Control: No-cache");
 		}
-		header("Content-Disposition: attachment; filename={$this->fileName}");
+		header("Content-Disposition: {$this->cDisp}; filename={$this->fileName}");
 		header("Content-Type: $this->cType");
 		header("Content-Description: File Transfer");
 		header("Content-Length: ".filesize($this->file));
