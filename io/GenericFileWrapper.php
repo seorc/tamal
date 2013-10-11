@@ -47,12 +47,19 @@ class GenericFileWrapper extends FileWrapper {
 
 	public function flush() {
 
+		if(preg_match('/(?i)msie [1-8]/',$_SERVER['HTTP_USER_AGENT'])) {
+			// Cope with legacy IE problems.
+			header("Cache-Control: ");
+			header("Pragma: ");
+		}
+		else {
+			header("Cache-Control: No-cache");
+		}
 		header("Content-Disposition: attachment; filename={$this->fileName}");
 		header("Content-Type: $this->cType");
 		header("Content-Description: File Transfer");
 		header("Content-Length: ".filesize($this->file));
 		header("Expires: 0");
-
 		readfile($this->file);
 	}
 }
