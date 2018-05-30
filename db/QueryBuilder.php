@@ -1,160 +1,156 @@
 <?php
+
 namespace tamal\db;
 
 /* Copyright (C) 2012 Daniel Abraján
  *
  * This file is part of Tamal.
- * 
+ *
  * Tamal is free software: you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * Tamal is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * Tamal. If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once(TAMAL."/db/Dbms.php");
+require_once TAMAL.'/db/Dbms.php';
 
 class QueryBuilder {
+    public const USE_AND = 1;
+    public const USE_OR = 2;
 
-	const USE_AND = 1;
-	const USE_OR = 2;
-	
-	protected $lang;
-	protected $dbms;
-	
-	protected $select = "";
-	protected $from = "";
-	protected $where = "";
-	protected $group = "";
-	protected $order = "";
-	protected $limit = "";
-	protected $offset = "";
+    protected $lang;
+    protected $dbms;
 
-	protected $tables;
+    protected $select = '';
+    protected $from = '';
+    protected $where = '';
+    protected $group = '';
+    protected $order = '';
+    protected $limit = '';
+    protected $offset = '';
 
-	protected $distinct = false;
+    protected $tables;
 
-	public function __construct($dbms = Dbms::POSTGRES) {
-		$this->dbms = $dbms;
-		$this->lang = Dbms::getLang($dbms);
+    protected $distinct = false;
 
-		$this->reset();
-	}
+    public function __construct($dbms = Dbms::POSTGRES) {
+        $this->dbms = $dbms;
+        $this->lang = Dbms::getLang($dbms);
 
-	public function reset() {
-		$this->select = "";
-		$this->from = "";
-		$this->where = "";
-		$this->group = "";
-		$this->order = "";
-		$this->limit = "";
-		$this->offset = "";
+        $this->reset();
+    }
 
-		$this->tables = array();
-	}
+    public function reset(): void {
+        $this->select = '';
+        $this->from = '';
+        $this->where = '';
+        $this->group = '';
+        $this->order = '';
+        $this->limit = '';
+        $this->offset = '';
 
-	public function getQuery() {
-		$l = $this->lang;
+        $this->tables = [];
+    }
 
-		$disctint = $this->buildDistinct();
+    public function getQuery() {
+        $l = $this->lang;
 
-		$this->buildFrom();
+        $disctint = $this->buildDistinct();
 
-		$qry =
-			$l->_select." "
-				.($disctint ? $disctint." " : "")
-				.$this->select
-			." ".$l->_from." ".$this->from
-			." ".($this->where	? $l->_where." ".$this->where	: "")
-			." ".($this->group	? $l->_group." ".$this->group	: "")
-			." ".($this->order	? $l->_order." ".$this->order	: "")
-			." ".($this->offset	? $l->_offset." ".$this->offset	: "")
-			." ".($this->limit	? $l->_limit." ".$this->limit	: "");
+        $this->buildFrom();
 
-		return $qry;
-	}
+        $qry =
+            $l->_select.' '
+                .($disctint ? $disctint.' ' : '')
+                .$this->select
+            .' '.$l->_from.' '.$this->from
+            .' '.($this->where ? $l->_where.' '.$this->where : '')
+            .' '.($this->group ? $l->_group.' '.$this->group : '')
+            .' '.($this->order ? $l->_order.' '.$this->order : '')
+            .' '.($this->offset ? $l->_offset.' '.$this->offset : '')
+            .' '.($this->limit ? $l->_limit.' '.$this->limit : '');
 
-	public function addColumns($columns) {
-		$this->select .= ($this->select ? ", " : "").$columns;
-	}
+        return $qry;
+    }
 
-	public function appendWhere($condition, $operator = self::USE_AND) {
-		$l = $this->lang;
+    public function addColumns($columns): void {
+        $this->select .= ($this->select ? ', ' : '').$columns;
+    }
 
-		if($operator == self::USE_AND) $operator = $l->_and;
-		elseif($operator == self::USE_OR) $operator = $l->_or;
-		else {
-			// TODO Create a specific Exception for this.
-			throw new \Excetpion("Unknown operator identifier");
-		}
+    public function appendWhere($condition, $operator = self::USE_AND): void {
+        $l = $this->lang;
 
-		$this->where .=
-			($this->where ? " $operator " : "")."($condition)";
-	}
+        if ($operator == self::USE_AND) {
+            $operator = $l->_and;
+        } elseif ($operator == self::USE_OR) {
+            $operator = $l->_or;
+        } else {
+            // TODO Create a specific Exception for this.
+            throw new \Excetpion('Unknown operator identifier');
+        }
 
-	public function setDistinct($columns = true) {
-		if($columns === false) {
-			$this->distinct = $columns;
-		}
-		elseif($columns === true) {
-			$this->distinct = $columns;
-		}
-		elseif(is_string($columns)) {
-			$this->distinct = $columns;
-		}
-		else {
-			// TODO Create a specific Exception for this.
-			throw new \Excetpion("Incorrect argument to setDistinct");
-		}
-	}
+        $this->where .=
+            ($this->where ? " ${operator} " : '')."(${condition})";
+    }
 
-	protected function buildDistinct() {
-		$d = "";
-		$l = $this->lang;
-		if($this->distinct === true) {
-			$d = $l->_distinct;
-		}
-		elseif(is_string($this->distinct)) {
-			$d = sprintf($l->_distinct_on, $this->distinct);
-		}
-		return $d;
-	}
+    public function setDistinct($columns = true): void {
+        if ($columns === false) {
+            $this->distinct = $columns;
+        } elseif ($columns === true) {
+            $this->distinct = $columns;
+        } elseif (\is_string($columns)) {
+            $this->distinct = $columns;
+        } else {
+            // TODO Create a specific Exception for this.
+            throw new \Excetpion('Incorrect argument to setDistinct');
+        }
+    }
 
-	protected function buildFrom() {
-		$this->from = implode(", ", $this->tables);
-	}
+    public function addTables(): void {
+        $argv = \func_get_args();
 
-	public function addTables() {
-		
-		$argv = func_get_args();
+        for ($i = 0; $i < \count($argv); ++$i) {
+            $table = $argv[$i];
+            if (!\in_array($table, $this->tables)) {
+                \array_push($this->tables, $table);
+            }
+        }
+    }
 
-		for($i = 0; $i < count($argv); $i++) {
-			$table = $argv[$i];
-			if(!in_array($table, $this->tables)) {
-				array_push($this->tables, $table);
-			}
-		}
-	}
+    public function addSorting($sorting): void {
+        $this->order .= ($this->order ? ', ' : '').$sorting;
+    }
 
-	public function addSorting($sorting) {
-		$this->order .= ($this->order ? ", " : "").$sorting;
-	}
+    public function addGrouping($grouping): void {
+        $this->group .= ($this->group ? ', ' : '').$grouping;
+    }
 
-	public function addGrouping($grouping) {
-		$this->group .= ($this->group ? ", " : "").$grouping;
-	}
+    public function setOffsetLimit($offset, $limit): void {
+        $this->offset = $offset;
+        $this->limit = $limit;
+    }
 
-	public function setOffsetLimit($offset, $limit) {
-		$this->offset = $offset;
-		$this->limit = $limit;
-	}
+    protected function buildDistinct() {
+        $d = '';
+        $l = $this->lang;
+        if ($this->distinct === true) {
+            $d = $l->_distinct;
+        } elseif (\is_string($this->distinct)) {
+            $d = \sprintf($l->_distinct_on, $this->distinct);
+        }
+
+        return $d;
+    }
+
+    protected function buildFrom(): void {
+        $this->from = \implode(', ', $this->tables);
+    }
 }
-
-?>
