@@ -44,11 +44,6 @@ class UrlMatcher {
         $url = \preg_split("/\?/", $url);
         $url = $url[0];
 
-        $url_params = '';
-        if (\count($url) > 1) {
-            $url_params = $url[1];
-        }
-
         foreach ($this->urls as $u) {
             // TODO do not use this hardcoded 0
             $path->setPathMatcher($u[0]);
